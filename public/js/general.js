@@ -5,7 +5,7 @@ $(() => {
   // TODO: Adicionar el service worker
 
   // Init Firebase nuevamente
-  firebase.initializeApp(config);
+  firebase.initializeApp(firebaseConfig);
 
   // TODO: Registrar LLave publica de messaging
 
@@ -36,6 +36,14 @@ $(() => {
   })
 
   $('#avatar').click(() => {
+    firebase.auth().signOut()
+    .then( () => {
+      $('#avatar').attr('src', 'imagenes/usuario.png');
+      Materialize.toast(`SignOut correcto`, 4000);
+    })
+    .catch( error => {
+      Materialize.toast(`Error al realizar SignOut ${error}`, 4000);
+    });
     //$('#avatar').attr('src', 'imagenes/usuario.png')
     //Materialize.toast(`SignOut correcto`, 4000)
   })
