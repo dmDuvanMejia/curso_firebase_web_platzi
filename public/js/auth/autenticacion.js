@@ -14,10 +14,7 @@ class Autenticacion {
     .catch(error => {
       Materialize.toast(`Error ${error}`, 5000);
     });
-    $('.modal').modal('close')
-    //$('#avatar').attr('src', 'imagenes/usuario_auth.png')
-    //Materialize.toast(`Bienvenido ${result.user.displayName}`, 5000)
-    //$('.modal').modal('close')
+    $('.modal').modal('close');
    
   }
 
@@ -44,7 +41,7 @@ class Autenticacion {
           `Bienvenido ${nombres}, debes realizar el proceso de verificación`,
           4000
         )
-        $('.modal').modal('close')
+        $('.modal').modal('close');
       })
       .catch( error => {
         console.error("ERROR " + error);
@@ -84,6 +81,34 @@ class Autenticacion {
     });
   }
 
+  resetPasswordByEmail(email) {
+    if (email) {
+      const auth = firebase.auth();
+
+      const configuracion = {
+        url: "http://localhost:3000/"
+      };
+
+      auth
+        .sendPasswordResetEmail(email, configuracion)
+        .then(result => {
+          console.log(result);
+          Materialize.toast(
+            `Se ha enviado un correo para reestablecer la contraseña`,
+            4000
+          );
+
+          $(".modal").modal("close");
+        })
+        .catch(error => {
+          console.log(error);
+          Materialize.toast(error.message, 4000);
+        });
+    } else {
+      Materialize.toast(`Por favor ingrese su correo`, 4000);
+    }
+  }
+
   authTwitter () {
   //   const provider = new firebase.auth.TwitterAuthProvider();
 
@@ -97,5 +122,5 @@ class Autenticacion {
   //     console.error(error);
   //     Materialize.toast(`Error al autenticarse con Twitter ${error} !! `, 4000);
   //   });
-  // }
+  }
 }
